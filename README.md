@@ -12,7 +12,7 @@ This project fetches the current Bitcoin price from the CoinGecko API using your
 - Internet access
 
 ### Setup Instructions
-1. **Clone or Download the Code**  
+**Clone or Download the Code**  
    Download this repository or clone it using:
    ```bash
    git clone https://github.com/shervinelyasi/esp32_BTC_price.git

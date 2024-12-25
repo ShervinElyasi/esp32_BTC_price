@@ -24,13 +24,13 @@ This project fetches the current Bitcoin price from the CoinGecko API using your
    Clone this repository to your local machine:
    ```bash
    git clone https://github.com/ShervinElyasi/esp32_BTC_price.git
-3. **Upload the code:
+3. **Upload the code:**
 
     Open the project in Arduino IDE.
     Select the correct board and port for your ESP32.
     Upload the code to your ESP32.
 
-4. **Configure Wi-Fi:
+4. **Configure Wi-Fi:**
 
     In the setup() function, replace ssid and password with your Wi-Fi credentials.
     Upload the updated code to the ESP32.

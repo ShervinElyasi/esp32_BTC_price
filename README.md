@@ -14,7 +14,7 @@ This project fetches the current Bitcoin price from the CoinGecko API using your
 - Wi-Fi network credentials (SSID and password)
 - Internet connection for API requests
 
-## Installation
+## Setup Instructions
 
 1. **Install the Arduino IDE:**
    - Download and install the [Arduino IDE](https://www.arduino.cc/en/software).

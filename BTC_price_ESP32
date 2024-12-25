@@ -1,0 +1,102 @@
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <ArduinoJson.h>
+
+const char* ssid = "your WiFi";
+const char* password = "your WiFi Password";
+
+double formerPrice;
+
+float priceList[2];
+float priceTemp;
+
+int request_counter = 0;
+
+void setup() {
+  Serial.begin(115200); // Start serial communication
+  Serial.println("Starting setup...");
+
+  WiFi.begin(ssid, password);
+  Serial.print("Connecting to WiFi");
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.print(".");
+  }
+
+  Serial.println("\nWiFi connected!");
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+}
+
+void loop() {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+
+    Serial.println("\nSending HTTP request...");
+    http.begin("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd");
+    int httpCode = http.GET();
+
+    if (httpCode > 0) {
+      Serial.print("HTTP Response code: ");
+      Serial.println(httpCode);
+      
+      String payload = http.getString();
+      Serial.print("Received payload: ");
+      Serial.println(payload);
+
+      StaticJsonDocument<200> doc;
+      DeserializationError error = deserializeJson(doc, payload);
+
+      if (!error) {
+        double price = doc["bitcoin"]["usd"];
+        Serial.print("Parsed price: ");
+        Serial.println(price);
+
+        priceList[0] = priceList[1];
+        priceList[1] = price;
+
+        if (request_counter == 0){
+          Serial.println("The first HTTP request has been sent. Please wait for the second request for comparison.");
+        } else{
+          
+          showPriceChange(priceList[0], priceList[1]);
+        }
+
+        request_counter++;
+        
+      } else {
+        Serial.print("JSON Deserialization failed: ");
+        Serial.println(error.c_str());
+      }
+    } else {
+      Serial.print("HTTP request failed, error code: ");
+      Serial.println(httpCode);
+    }
+    http.end();
+    
+  delay(58500);
+  }
+}
+
+void showPriceChange(double first_price, double second_price) {
+  Serial.print("Comparing prices: ");
+  Serial.print("price in request ");
+  Serial.print(request_counter - 1);
+  Serial.print(": ");
+  Serial.print(first_price);
+  Serial.print("\tprice in request ");
+  Serial.print(request_counter);
+  Serial.print(": ");
+  Serial.print(second_price);
+  Serial.println();
+
+  if (second_price > first_price) {
+    Serial.println("Price increased");
+  } else if (second_price == first_price) {
+    Serial.println("Price unchanged");
+  } else {
+    Serial.println("Price decreased");
+  }
+}
+

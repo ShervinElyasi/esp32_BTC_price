@@ -6,6 +6,7 @@ This project fetches the current Bitcoin price from the CoinGecko API using your
 ### Features
 - Connects to WiFi and fetches Bitcoin price from CoinGecko.
 - Compares the current price with the previous one.
+- Configurable request intervals.
 
 ### Components
 - ESP32 microcontroller

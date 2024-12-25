@@ -10,7 +10,9 @@ This project fetches the current Bitcoin price from the CoinGecko API using your
 
 ### Components
 - ESP32 microcontroller
-- Internet access
+- Arduino IDE with ESP32 board support
+- Wi-Fi network credentials (SSID and password)
+- Internet connection for API requests
 
 ### Setup Instructions
 **Clone or Download the Code**  
